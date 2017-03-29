@@ -1,0 +1,28 @@
+﻿<AML>
+ <Item type="Field" id="B9D77B909EC448BFAC32AFD39D07C0E8" action="add">
+  <bg_color>#FFFFFF</bg_color>
+  <border_width>2</border_width>
+  <display_length>5</display_length>
+  <field_type>text</field_type>
+  <font_color>#000000</font_color>
+  <font_family>arial, helvetica, sans-serif</font_family>
+  <font_size>8pt</font_size>
+  <font_weight>bold</font_weight>
+  <is_disabled>0</is_disabled>
+  <is_visible>1</is_visible>
+  <label xml:lang="en">RPN: </label>
+  <label_position>left</label_position>
+  <legend xml:lang="en">Risk Analysis</legend>
+  <list_no_blank>0</list_no_blank>
+  <name>rpn</name>
+  <positioning>absolute</positioning>
+  <propertytype_id keyed_name="rpn" type="Property">F8E3E3ABACBB4781B71881B5EF1CBDB5</propertytype_id>
+  <sort_order>6144</sort_order>
+  <source_id keyed_name="05B64DAA17C04FD691421FA39CCE4B89" type="Body">05B64DAA17C04FD691421FA39CCE4B89</source_id>
+  <tab_index>4</tab_index>
+  <tab_stop>1</tab_stop>
+  <text_align>center</text_align>
+  <x>27</x>
+  <y>194</y>
+ </Item>
+</AML>

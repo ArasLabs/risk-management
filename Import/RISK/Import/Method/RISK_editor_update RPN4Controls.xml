@@ -1,0 +1,108 @@
+﻿<AML>
+ <Item type="Method" id="B5BD0B78531445AA9B4877F7C76EA2EC" action="add">
+  <comments>For Activity2 Risk Editor</comments>
+  <method_code><![CDATA[function setNewValue(toItem, propName, myNewValue){
+  toItem.setProperty(propName,myNewValue);
+  if (toItem.getAction()!='add' && toItem.getAction()!='delete') toItem.setAction('edit');
+  
+  //  peter  06.25.2008
+  //  now run a function to put the highest RPN number onto the Activity2 as a rollup number.
+  //debugger;
+  var myItem = top.document.frames[0].document.thisItem;
+  var oldRPN = myItem.getProperty("rpn","");
+  //debugger;
+  if (myNewValue > oldRPN) {
+  
+      myItem.setProperty("rpn",myNewValue);
+      top.document.frames[0].handleItemChange("rpn",myNewValue);  
+  }
+  
+}
+var myNewValue = newValue;
+/*
+//+++ needs for show result to grid applet +++
+var myGrid = grid.getImplementationObject();
+var rowId = myGrid.getSelectedId();
+var curCell = myGrid.cells(rowId, colNumber);
+//+++ needs for show result to grid applet +++
+*/
+var sev = 1;
+var occ = 1;
+var det = 1;
+var myXPath = 'ancestor::Item[@type="FMEA Failure Mode"]';
+//var myXPath = 'ancestor::Item';                         
+var FMEA_Failure_Modes = item.getItemByIndex(0).getItemsByXPath(myXPath);
+if (FMEA_Failure_Modes.getItemCount()<1) {rePopGrid(); return;}
+var FMEA_Failure_Mode = FMEA_Failure_Modes.getItemByIndex(0);
+myXPath = 'descendant::Relationships/Item[@type="FMEA Failure Mode FMEA Effect"][@action!="delete" or string(@action)=""]/related_id/Item[@type="FMEA Effect" and @max_severity="1"]';
+var FMEA_Effects = FMEA_Failure_Mode.getItemsByXPath(myXPath);
+if (FMEA_Effects.getItemCount()<1){
+  myXPath = 'descendant::Relationships/Item[@type="FMEA Cause FMEA Control"]/related_id/Item[@type="FMEA Control"]';
+  var FMEA_Controls = FMEA_Failure_Mode.getItemsByXPath(myXPath);
+  for (var j = 0; j<FMEA_Controls.getItemCount(); j++){
+    var FMEA_Control = FMEA_Controls.getItemByIndex(j);
+    setNewValue(FMEA_Control,'rpn','');
+  }
+  rePopGrid();
+  return;
+}
+var FMEA_Effect = FMEA_Effects.getItemByIndex(0);
+sev = FMEA_Effect.getProperty('severity','');
+
+var flagPropName = propertyName;
+if (flagPropName == 'effectseverity'){flagPropName = 'severity';}
+
+switch(flagPropName){
+  case 'severity' : 
+    myXPath = 'descendant::Relationships/Item[@type="FMEA Failure Mode FMEA Cause"]/related_id/Item[@type="FMEA Cause"]';
+    var FMEA_Causes = FMEA_Failure_Mode.getItemsByXPath(myXPath);
+    for (var i = 0; i<FMEA_Causes.getItemCount();i++){
+      var FMEA_Cause = FMEA_Causes.getItemByIndex(i);
+      occ = FMEA_Cause.getProperty('occurrence','');
+      myXPath = 'descendant::Relationships/Item[@type="FMEA Cause FMEA Control"]/related_id/Item[@type="FMEA Control"]';
+      var FMEA_Controls = FMEA_Cause.getItemsByXPath(myXPath);
+      for (var j = 0; j<FMEA_Controls.getItemCount(); j++){
+        var FMEA_Control = FMEA_Controls.getItemByIndex(j);
+        det = FMEA_Control.getProperty('detection','');
+        var rpn = sev * occ * det;
+        if (!Boolean(parseInt(rpn))) rpn = "";
+        setNewValue(FMEA_Control,'rpn',rpn);
+      }
+    }
+    break;
+  case 'occurrence' :
+    occ = item.getProperty('occurrence','');
+    myXPath = 'descendant::Relationships/Item[@type="FMEA Cause FMEA Control"]/related_id/Item[@type="FMEA Control"]';
+    var FMEA_Controls = item.getItemsByXPath(myXPath);
+    for (var j = 0; j<FMEA_Controls.getItemCount(); j++){
+      var FMEA_Control = FMEA_Controls.getItemByIndex(j);
+      det = FMEA_Control.getProperty('detection','');
+      var rpn = sev * occ * det;
+      if (!Boolean(parseInt(rpn))) rpn = "";
+      setNewValue(FMEA_Control,'rpn',rpn);
+    }
+    break;
+  case 'detection' :
+    myXPath = 'ancestor::Item[@type="FMEA Failure Mode FMEA Cause"]/related_id/Item[@type="FMEA Cause"]';
+    var FMEA_Causes = item.getItemsByXPath(myXPath);
+    if (FMEA_Causes.getItemCount()<1) {rePopGrid(); return;}
+    var FMEA_Cause = FMEA_Causes.getItemByIndex(0);
+    occ = FMEA_Cause.getProperty('occurrence','');
+    det = item.getProperty('detection','');
+    var rpn = sev * occ * det;
+    if (!Boolean(parseInt(rpn))) rpn = "";
+    setNewValue(item,'rpn',rpn);
+    break;
+}
+rePopGrid();
+
+//++++++ to have correct grid repopulating ++++++
+function rePopGrid(){
+  grid.invalidateContent();
+}
+//------- to have correct grid repopulating -------
+]]></method_code>
+  <method_type>JavaScript</method_type>
+  <name>RISK_editor_update RPN4Controls</name>
+ </Item>
+</AML>

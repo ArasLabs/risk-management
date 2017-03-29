@@ -1,0 +1,422 @@
+﻿<AML>
+ <Item type="Grid" id="E7443526B1BC4E7187575EEF5D318710" action="add">
+  <merge_path>Relationships</merge_path>
+  <method keyed_name="APQP_adapt_result" type="Method">CB959FDDA7174C38BAE22E89AD0F4BDA</method>
+  <name>RISK Editor</name>
+  <query><![CDATA[<Item type="Activity2 Characteristic" select="related_id(characteristic_id,characteristic_class),sort_order" action="get">
+	<source_id>{id}</source_id>
+	<Relationships>
+		<Item type="Activity2 Char Failure Mode" select="related_id,sort_order">
+			<related_id>
+				<Item type="FMEA Failure Mode" select="failure_mode,failure_mode_class,sort_order">
+					<Relationships>
+						<Item type="FMEA Failure Mode FMEA Effect" select="related_id(effects,severity),sort_order"/>
+						<Item type="FMEA Failure Mode FMEA Cause" select="related_id,sort_order">
+							<related_id>
+								<Item type="FMEA Cause" select="causes,occurrence">
+									<Relationships>
+										<Item type="FMEA Cause FMEA Control" select="related_id,sort_order">
+											<related_id>
+												<Item type="FMEA Control" select="control_prevention,control_detection,detection,rpn">
+													<Relationships>
+														<Item type="FMEA Control FMEA Action" select="related_id(milestone_name,action_role,owned_by_id,milestone_due_date,milestone_actual_date,milestone_comment,severity,occurrence,detection,rpn),sort_order"/>
+													</Relationships>
+												</Item>
+											</related_id>
+										</Item>
+									</Relationships>
+								</Item>
+							</related_id>
+						</Item>
+					</Relationships>
+				</Item>
+			</related_id>
+		</Item>
+	</Relationships>
+</Item>
+]]></query>
+  <Relationships>
+   <Item type="Configurable Grid Event" id="BF22BC5C652B423EB86789E3C825E8C5" action="add">
+    <grid_event>oncopy</grid_event>
+    <related_id keyed_name="APQP_CP_onCopy" type="Method">
+     <Item type="Method" action="get" select="id">
+      <name>APQP_CP_onCopy</name>
+     </Item>
+    </related_id>
+    <sort_order>128</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+   </Item>
+   <Item type="Grid Column" id="178CCACD7C4948399EAB9E7CA18147E3" action="add">
+    <align>left</align>
+    <datatype>unbound_multi</datatype>
+    <label xml:lang="en">Detection</label>
+    <property>control_detection</property>
+    <select_method keyed_name="APQP_return_item" type="Method">7AE937CC93F24CF88DFACB062FA3EBC3</select_method>
+    <select_query></select_query>
+    <sort_order>1200</sort_order>
+    <source_form keyed_name="APQP_ControlsBrowser4Detection3" type="Form">349AE00114DB4BA490EBABEC1A1C05A0</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>120</width>
+    <xpath>.</xpath>
+   </Item>
+   <Item type="Grid Column" id="43878C4D39864990BE3A8E6D7EC39EC6" action="add">
+    <align>left</align>
+    <datatype>federated</datatype>
+    <label xml:lang="en">RPN</label>
+    <property>rpn</property>
+    <sort_order>1400</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>.</xpath>
+   </Item>
+   <Item type="Grid Column" id="56B1AF9AAED940AA986E4C31C8D680E4" action="add">
+    <align>left</align>
+    <datatype>federated</datatype>
+    <label xml:lang="en">Sev</label>
+    <property>severity</property>
+    <select_query></select_query>
+    <sort_order>700</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>Relationships/Item[@type="FMEA Failure Mode FMEA Effect"][@action!="delete" or string(@action)=""]/related_id/Item[@type="FMEA Effect" and @max_severity="1"]</xpath>
+    <Relationships>
+     <Item type="Column Event" id="ED854B2A51494DA59345282B03536647" action="add">
+      <grid_event>oneditfinish</grid_event>
+      <related_id keyed_name="RISK_editor_update RPN4Controls" type="Method">
+       <Item type="Method" action="get" select="id">
+        <name>RISK_editor_update RPN4Controls</name>
+       </Item>
+      </related_id>
+      <sort_order>128</sort_order>
+      <source_id keyed_name="56B1AF9AAED940AA986E4C31C8D680E4" type="Grid Column">56B1AF9AAED940AA986E4C31C8D680E4</source_id>
+     </Item>
+    </Relationships>
+   </Item>
+   <Item type="Grid Column" id="56D99D0F974146CD9775E641887203F1" action="add">
+    <align>left</align>
+    <datatype>unbound_multi</datatype>
+    <label xml:lang="en">Causes</label>
+    <property>causes</property>
+    <select_method keyed_name="APQP_return_item" type="Method">7AE937CC93F24CF88DFACB062FA3EBC3</select_method>
+    <select_query></select_query>
+    <sort_order>900</sort_order>
+    <source_form keyed_name="APQP_CausesBrowser" type="Form">9FFC56A9DE884EDDAA51292DD7E9A2BB</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>1</starts_nested_row>
+    <visible>1</visible>
+    <width>120</width>
+    <xpath>Relationships/Item[@type="FMEA Failure Mode FMEA Cause"]/related_id/Item[@type="FMEA Cause"]</xpath>
+   </Item>
+   <Item type="Grid Column" id="57AD90ACFD5E459DA6FE86F68F4335DA" action="add">
+    <align>left</align>
+    <datatype>federated</datatype>
+    <label xml:lang="en">RPN</label>
+    <property>rpn</property>
+    <sort_order>2400</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>.</xpath>
+   </Item>
+  
+   <Item type="Grid Column" id="5866DF23D9834CC584FF01A2D861D3A7" action="add">
+    <align>left</align>
+    <datatype>text</datatype>
+    <label xml:lang="en">Action Taken</label>
+    <property>milestone_comment</property>
+    <sort_order>2000</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>90</width>
+    <xpath>.</xpath>
+   </Item>
+   <Item type="Grid Column" id="78B732E008704C5A8070C13685913D34" action="add">
+    <align>left</align>
+    <datatype>default</datatype>
+    <label xml:lang="en">Target Date</label>
+    <property>milestone_due_date</property>
+    <sort_order>1800</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>80</width>
+    <xpath>.</xpath>
+   </Item>
+   <Item type="Grid Column" id="7DD81D56441F4CE18122AF8D56BD0525" action="add">
+    <align>left</align>
+    <datatype>text</datatype>
+    <label xml:lang="en">Actions</label>
+    <property>milestone_name</property>
+    <sort_order>1500</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>1</starts_nested_row>
+    <visible>1</visible>
+    <width>120</width>
+    <xpath>Relationships/Item[@type="FMEA Control FMEA Action"]/related_id/Item[@type="FMEA Action"]</xpath>
+   </Item>
+   <Item type="Grid Column" id="8A2ABFC0EBBD4091ACE18AA63EF0677B" action="add">
+    <align>left</align>
+    <datatype>default</datatype>
+    <label xml:lang="en">Responsible</label>
+    <property>owned_by_id</property>
+    <sort_order>1700</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>90</width>
+    <xpath>.</xpath>
+   </Item>
+   <Item type="Grid Column" id="91305BE8274E4683B16E1FF1454DFFF4" action="add">
+    <align>left</align>
+    <datatype>default</datatype>
+    <label xml:lang="en">Role</label>
+    <property>action_role</property>
+    <sort_order>1600</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>80</width>
+    <xpath>.</xpath>
+   </Item>
+   <Item type="Grid Column" id="9A81E84C331744D08C1EDFC5527D241B" action="add">
+    <align>left</align>
+    <datatype>default</datatype>
+    <label xml:lang="en">Actual Date</label>
+    <property>milestone_actual_date</property>
+    <sort_order>1900</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>90</width>
+    <xpath>.</xpath>
+   </Item>
+   <Item type="Grid Column" id="A2B3BA0D003543B1ACECDA11CCCEF90B" action="add">
+    <align>left</align>
+    <datatype>bound_multi</datatype>
+    <label xml:lang="en">Char</label>
+    <property>characteristic_id</property>
+    <select_method keyed_name="APQP_CharacteristicBrowser" type="Method">83F65F97A9FE4180B65A3EEE4D158F88</select_method>
+    <select_query></select_query>
+    <sort_order>300</sort_order>
+    <source_form keyed_name="APQP_CharacteristicBrowser" type="Form">11DED709828A4947BA2677E7901D9D8E</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>60</width>
+    <xpath>related_id/Item[@type="Characteristic"]</xpath>
+   </Item>
+   <Item type="Grid Column" id="AA216D0D68CD42A28B81DE17AD695946" action="add">
+    <align>left</align>
+    <datatype>bound_select</datatype>
+    <label xml:lang="en">Sev</label>
+    <property>severity</property>
+    <select_method keyed_name="APQP_getList_4Sev_field" type="Method">148970D9262447A7A544F9F3C279F92A</select_method>
+    <select_query></select_query>
+    <sort_order>2100</sort_order>
+    <source_form keyed_name="APQP_DetOccSev_common" type="Form">D12A22321BCD4C80A8E29FE2F0E19A73</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>.</xpath>
+    <Relationships>
+     <Item type="Column Event" id="1B799C1BF2E14918815C9C3BF23B97D3" action="add">
+      <grid_event>oneditfinish</grid_event>
+      <related_id keyed_name="RISK_editor_update RPN4Action" type="Method">
+       <Item type="Method" action="get" select="id">
+        <name>RISK_editor_update RPN4Action</name>
+       </Item>
+      </related_id>
+      <sort_order>128</sort_order>
+      <source_id keyed_name="AA216D0D68CD42A28B81DE17AD695946" type="Grid Column">AA216D0D68CD42A28B81DE17AD695946</source_id>
+     </Item>
+    </Relationships>
+   </Item>
+   <Item type="Grid Column" id="B87E9D5B7E93437A9121E2B11B0CAB84" action="add">
+    <align>left</align>
+    <datatype>bound_select</datatype>
+    <label xml:lang="en">Det</label>
+    <property>detection</property>
+    <select_method keyed_name="APQP_getList_4Det_field" type="Method">CE06AF0FBBA14371A9AC90E0246F2DA7</select_method>
+    <select_query></select_query>
+    <sort_order>1300</sort_order>
+    <source_form keyed_name="APQP_DetOccSev_common" type="Form">D12A22321BCD4C80A8E29FE2F0E19A73</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>.</xpath>
+    <Relationships>
+     <Item type="Column Event" id="142AFDAAA61B4AAF98C2ED9E60E07E20" action="add">
+      <grid_event>oneditfinish</grid_event>
+      <related_id keyed_name="RISK_editor_update RPN4Controls" type="Method">
+       <Item type="Method" action="get" select="id">
+        <name>RISK_editor_update RPN4Controls</name>
+       </Item>
+      </related_id>
+      <sort_order>128</sort_order>
+      <source_id keyed_name="B87E9D5B7E93437A9121E2B11B0CAB84" type="Grid Column">B87E9D5B7E93437A9121E2B11B0CAB84</source_id>
+     </Item>
+    </Relationships>
+   </Item>
+   <Item type="Grid Column" id="BC22B839CA6F475295C1F6109C5A969F" action="add">
+    <align>left</align>
+    <datatype>federated</datatype>
+    <label xml:lang="en">Class</label>
+    <property>characteristic_class</property>
+    <select_query></select_query>
+    <sort_order>400</sort_order>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>60</width>
+    <xpath>related_id/Item[@type="Characteristic"]</xpath>
+   </Item>
+   <Item type="Grid Column" id="D10BD2D3DD0B4CC9844E0F3C85C877CE" action="add">
+    <align>left</align>
+    <datatype>bound_select</datatype>
+    <label xml:lang="en">Occ</label>
+    <property>occurrence</property>
+    <select_method keyed_name="APQP_getList_4Occ_field" type="Method">08649EE2428F4ABBA2194E1CADDA628D</select_method>
+    <select_query></select_query>
+    <sort_order>2200</sort_order>
+    <source_form keyed_name="APQP_DetOccSev_common" type="Form">D12A22321BCD4C80A8E29FE2F0E19A73</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>.</xpath>
+    <Relationships>
+     <Item type="Column Event" id="4B38D6D8223349C8B478A5CF7FE19C4E" action="add">
+      <grid_event>oneditfinish</grid_event>
+      <related_id keyed_name="RISK_editor_update RPN4Action" type="Method">
+       <Item type="Method" action="get" select="id">
+        <name>RISK_editor_update RPN4Action</name>
+       </Item>
+      </related_id>
+      <sort_order>128</sort_order>
+      <source_id keyed_name="D10BD2D3DD0B4CC9844E0F3C85C877CE" type="Grid Column">D10BD2D3DD0B4CC9844E0F3C85C877CE</source_id>
+     </Item>
+    </Relationships>
+   </Item>
+   <Item type="Grid Column" id="E93B0F62DE0B4B01AF7F8A2FB750D2F5" action="add">
+    <align>left</align>
+    <datatype>bound_select</datatype>
+    <label xml:lang="en">Occ</label>
+    <property>occurrence</property>
+    <select_method keyed_name="APQP_getList_4Occ_field" type="Method">08649EE2428F4ABBA2194E1CADDA628D</select_method>
+    <select_query></select_query>
+    <sort_order>1000</sort_order>
+    <source_form keyed_name="APQP_DetOccSev_common" type="Form">D12A22321BCD4C80A8E29FE2F0E19A73</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>.</xpath>
+    <Relationships>
+     <Item type="Column Event" id="DEE0B71F122D4A3C8FE0E1BCF0FE66F6" action="add">
+      <grid_event>oneditfinish</grid_event>
+      <related_id keyed_name="RISK_editor_update RPN4Controls" type="Method">
+       <Item type="Method" action="get" select="id">
+        <name>RISK_editor_update RPN4Controls</name>
+       </Item>
+      </related_id>
+      <sort_order>128</sort_order>
+      <source_id keyed_name="E93B0F62DE0B4B01AF7F8A2FB750D2F5" type="Grid Column">E93B0F62DE0B4B01AF7F8A2FB750D2F5</source_id>
+     </Item>
+    </Relationships>
+   </Item>
+   <Item type="Grid Column" id="EBC3AB441C15449DB8942A9E1A284FB5" action="add">
+    <align>left</align>
+    <datatype>bound_select</datatype>
+    <label xml:lang="en">Det</label>
+    <property>detection</property>
+    <select_method keyed_name="APQP_getList_4Det_field" type="Method">CE06AF0FBBA14371A9AC90E0246F2DA7</select_method>
+    <select_query></select_query>
+    <sort_order>2300</sort_order>
+    <source_form keyed_name="APQP_DetOccSev_common" type="Form">D12A22321BCD4C80A8E29FE2F0E19A73</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>40</width>
+    <xpath>.</xpath>
+    <Relationships>
+     <Item type="Column Event" id="6F7512C4E1104B37A77B9BFA23DA90F3" action="add">
+      <grid_event>oneditfinish</grid_event>
+      <related_id keyed_name="RISK_editor_update RPN4Action" type="Method">
+       <Item type="Method" action="get" select="id">
+        <name>RISK_editor_update RPN4Action</name>
+       </Item>
+      </related_id>
+      <sort_order>128</sort_order>
+      <source_id keyed_name="EBC3AB441C15449DB8942A9E1A284FB5" type="Grid Column">EBC3AB441C15449DB8942A9E1A284FB5</source_id>
+     </Item>
+    </Relationships>
+   </Item>
+   <Item type="Grid Column" id="EF5F212F9C1E4C279F161ED3585FDF13" action="add">
+    <align>left</align>
+    <datatype>unbound_multi</datatype>
+    <label xml:lang="en">Prevention</label>
+    <property>control_prevention</property>
+    <select_method keyed_name="APQP_return_item" type="Method">7AE937CC93F24CF88DFACB062FA3EBC3</select_method>
+    <select_query></select_query>
+    <sort_order>1100</sort_order>
+    <source_form keyed_name="APQP_ControlsBrowser4Prevention1" type="Form">0DE48701D31E41EE812BEB8FA901BFA1</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>1</starts_nested_row>
+    <visible>1</visible>
+    <width>120</width>
+    <xpath>Relationships/Item[@type="FMEA Cause FMEA Control"]/related_id/Item[@type="FMEA Control"]</xpath>
+   </Item>
+   <Item type="Grid Column" id="F7C9F629A7214BF7B22DEDFF2BD8CFCA" action="add">
+    <align>left</align>
+    <datatype>bound_multi</datatype>
+    <label xml:lang="en">Effects</label>
+    <property>effectseverity</property>
+    <select_method keyed_name="APQP_return_item" type="Method">7AE937CC93F24CF88DFACB062FA3EBC3</select_method>
+    <select_query></select_query>
+    <sort_order>600</sort_order>
+    <source_form keyed_name="APQP_EffectsSeverity" type="Form">A4AE138D640C42A09667FEE3185ECE14</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>0</starts_nested_row>
+    <visible>1</visible>
+    <width>150</width>
+    <xpath>Relationships/Item[@type="FMEA Failure Mode FMEA Effect"]/related_id/Item[@type="FMEA Effect"]</xpath>
+    <Relationships>
+     <Item type="Column Event" id="AED96CBE14FA44E9924AE5F2E291E60F" action="add">
+      <grid_event>oneditfinish</grid_event>
+      <related_id keyed_name="APQP_editor_update RPN4Controls" type="Method">
+       <Item type="Method" action="get" select="id">
+        <name>APQP_editor_update RPN4Controls</name>
+       </Item>
+      </related_id>
+      <sort_order>128</sort_order>
+      <source_id keyed_name="F7C9F629A7214BF7B22DEDFF2BD8CFCA" type="Grid Column">F7C9F629A7214BF7B22DEDFF2BD8CFCA</source_id>
+     </Item>
+    </Relationships>
+   </Item>
+   <Item type="Grid Column" id="FE3A23B42CC442CE9B20E293B6F90027" action="add">
+    <align>left</align>
+    <datatype>unbound_multi</datatype>
+    <label xml:lang="en">Failure Mode</label>
+    <property>failure_mode</property>
+    <select_method keyed_name="APQP_return_item" type="Method">7AE937CC93F24CF88DFACB062FA3EBC3</select_method>
+    <select_query></select_query>
+    <sort_order>500</sort_order>
+    <source_form keyed_name="APQP_FailureModeBrowser" type="Form">4AB589C885D54925BFB90029F43DE386</source_form>
+    <source_id keyed_name="RISK Editor" type="Grid">E7443526B1BC4E7187575EEF5D318710</source_id>
+    <starts_nested_row>1</starts_nested_row>
+    <visible>1</visible>
+    <width>120</width>
+    <xpath>Relationships/Item[@type="Activity2 Char Failure Mode"]/related_id/Item[@type="FMEA Failure Mode"]</xpath>
+   </Item></Relationships>
+ </Item>
+</AML>

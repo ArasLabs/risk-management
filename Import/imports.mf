@@ -1,0 +1,5 @@
+<imports>
+  <package name="RISK" path="RISK\Import">
+    <dependson name="com.aras.innovator.solution.QP" />
+  </package>
+</imports>

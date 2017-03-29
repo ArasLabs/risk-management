@@ -1,0 +1,51 @@
+﻿<AML>
+ <Item type="Method" id="2CF0DF2BA2EC4C27A2D48A57BC9C0047" action="add">
+  <comments>Used by Activity2 Risk Analyzer</comments>
+  <method_code><![CDATA[function setNewValue(rowId,colNumber,newRPN){
+  item.setProperty('rpn',newRPN);
+  if (item.getAction()!='add' && item.getAction()!='delete') item.setAction('update');
+}
+var gridApplet = grid.getImplementationObject();
+var rowId = grid.getSelectedRowId();
+var colNumber = grid.getSelectedColumn();
+var curCell = gridApplet.cells(rowId, colNumber);
+var myNewValue = newValue;
+
+var severity = item.getProperty('severity','');
+var occurrence = item.getProperty('occurrence','');
+var detection = item.getProperty('detection','');
+//if (severity === '' || occurrence === '' || detection === ''){return;}
+
+var n = 0;
+
+switch(propertyName){
+  case 'severity' : 
+    if (myNewValue) severity = myNewValue;
+    n = 3;
+    break;
+  case 'occurrence' :
+    if (myNewValue) occurrence = myNewValue;
+    n = 2;
+    break;
+  case 'detection' :
+    if (myNewValue) detection = myNewValue;
+    n = 1;
+    break;
+}
+
+var newRPN = severity*occurrence*detection;
+newRPN = (parseInt(newRPN)) ? parseInt(newRPN) : "";
+setNewValue(rowId,parseInt(colNumber)+parseInt(n),newRPN);
+
+rePopGrid();
+
+//++++++ to have correct grid repopulating ++++++
+function rePopGrid(){
+  grid.invalidateContent();
+}
+//------- to have correct grid repopulating -------
+]]></method_code>
+  <method_type>JavaScript</method_type>
+  <name>RISK_editor_update RPN4Action</name>
+ </Item>
+</AML>

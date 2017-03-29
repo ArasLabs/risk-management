@@ -1,0 +1,21 @@
+﻿<AML>
+ <Item type="Property" id="F84CE3025D6643E294B53097E631A062" action="add">
+  <column_alignment>right</column_alignment>
+  <column_width>80</column_width>
+  <data_type>string</data_type>
+  <default_value xml:lang="en">0</default_value>
+  <is_hidden>0</is_hidden>
+  <is_hidden2>0</is_hidden2>
+  <is_indexed>0</is_indexed>
+  <is_keyed>0</is_keyed>
+  <is_multi_valued>0</is_multi_valued>
+  <is_required>0</is_required>
+  <label xml:lang="en">RPN</label>
+  <name>rpn</name>
+  <range_inclusive>0</range_inclusive>
+  <readonly>0</readonly>
+  <sort_order>4</sort_order>
+  <source_id keyed_name="WBS Element" type="ItemType" name="WBS Element">C2083D2B89174D8B9606625092101640</source_id>
+  <stored_length>5</stored_length>
+ </Item>
+</AML>

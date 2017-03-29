@@ -1,0 +1,19 @@
+﻿<AML>
+ <Item type="PM_ProjectGridLayout" id="7AF4F868E05C4F0C9F1E929889F31EF8" action="add">
+  <is_system>0</is_system>
+  <label xml:lang="en">Risk</label>
+  <name>Risk</name>
+  <position>12</position>
+  <sort_order>1536</sort_order>
+  <source_id keyed_name="World" type="Preference">507A16AA36F94513AD7EC1F948B5B48F</source_id>
+  <width>70</width>
+  <Relationships>
+   <Item type="PM_ProjectColumnDescription" id="FC3A30B0E11B4DD4B56281EB0C9AF073" action="add">
+    <data_source>Activity2/rpn</data_source>
+    <row_type>act</row_type>
+    <sort_order>128</sort_order>
+    <source_id keyed_name="12" type="PM_ProjectGridLayout">7AF4F868E05C4F0C9F1E929889F31EF8</source_id>
+   </Item>
+  </Relationships>
+ </Item>
+</AML>
